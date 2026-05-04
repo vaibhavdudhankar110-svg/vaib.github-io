@@ -1,1 +1,230 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Anjali 💜🎂</title><style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(270deg, #6a11cb, #a4508b, #6a11cb);
+  background-size: 600% 600%;
+  animation: bgMove 10s ease infinite;
+  color: white;
+  overflow: hidden;
+}
 
+@keyframes bgMove {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+.container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+.section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  scroll-snap-align: start;
+  animation: pageAnim 1.2s ease;
+}
+
+@keyframes pageAnim {
+  from {opacity:0; transform: scale(0.9);} 
+  to {opacity:1; transform: scale(1);} 
+}
+
+.glass {
+  background: rgba(255,255,255,0.12);
+  padding: 35px;
+  border-radius: 25px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  max-width: 420px;
+}
+
+.glow {
+  font-size: 2.6rem;
+  font-weight: bold;
+  animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff; }
+  to { text-shadow: 0 0 20px #fff, 0 0 40px #a855f7; }
+}
+
+#countdown { font-size: 1.5rem; margin-top: 10px; }
+
+/* Candle */
+.candle { width: 12px; height: 45px; background: white; margin: 20px auto; }
+.flame {
+  width: 12px; height: 22px;
+  background: radial-gradient(circle, #ffcc00, orange);
+  border-radius: 50%; position: relative; top: -22px;
+  animation: flicker 0.15s infinite alternate;
+}
+@keyframes flicker { from {transform: scale(1);} to {transform: scale(1.2);} }
+
+#typing { font-size: 1.1rem; min-height: 60px; }
+
+/* Floating cute emojis */
+.float {
+  position: fixed;
+  bottom: -20px;
+  animation: floatUp 6s linear infinite;
+  opacity: 0.9;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity:1 }
+  100% { transform: translateY(-110vh); opacity:0 }
+}
+
+button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  background: #a855f7;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+canvas { position: fixed; top:0; left:0; z-index:-1; }
+
+</style></head>
+<body><canvas id="fireworks"></canvas>
+
+<div class="container"><!-- PAGE 1 --><div class="section">
+  <div class="glass">
+    <div class="glow">Anjali 💜👑</div>
+    <p>🎉 Happy Birthday 🎂✨</p>
+    <p>"Aaj ka din sirf tumhare naam 💖🌸"</p>
+    <div id="countdown"></div>
+  </div>
+</div><!-- PAGE 2 --><div class="section">
+  <div class="glass">
+    <h1>🌟 Our Shining Star</h1>
+    <p>"Tumhari smile duniya ko brighter bana deti hai 😊✨"</p>
+  </div>
+</div><!-- PAGE 3 --><div class="section">
+  <div class="glass">
+    <h1>✨ Special Words</h1>
+    <p>"Har sapna tumhara sach ho 🚀💫"</p>
+    <p>"Tum jahan ho waha khushiyan hi khushiyan ho 💕🌈"</p>
+  </div>
+</div><!-- PAGE 4 --><div class="section">
+  <div class="glass">
+    <h1>💌 From Your Dear Mama Viraj</h1>
+    <div id="typing"></div>
+    <div class="candle"><div class="flame"></div></div>
+  </div>
+</div><!-- PAGE 5 --><div class="section">
+  <div class="glass">
+    <h1>🎊 Celebration Time 🎊</h1>
+    <p>"Aaj full party mood on 🎉💃"</p>
+    <button onclick="celebrate()">Celebrate 🎉💥</button>
+  </div>
+</div></div><script>
+
+// Countdown
+const countdown = document.getElementById("countdown");
+const birthday = new Date("May 23, 2026 00:00:00").getTime();
+setInterval(()=>{
+ const now=new Date().getTime();
+ const gap=birthday-now;
+ const d=Math.floor(gap/(1000*60*60*24));
+ const h=Math.floor((gap%(1000*60*60*24))/(1000*60*60));
+ const m=Math.floor((gap%(1000*60*60))/(1000*60));
+ const s=Math.floor((gap%(1000*60))/1000);
+ countdown.innerHTML=`${d}d ${h}h ${m}m ${s}s ⏳`;
+},1000);
+
+// Typing
+const text="Happy Birthday meri pyari Anjali 💜🎂\nMama tumhe bohot pyaar karte hain 🥰\nTum life me bahut aage badho 🚀✨";
+let i=0;
+(function typing(){ if(i<text.length){ document.getElementById("typing").innerHTML+=text[i++]; setTimeout(typing,35);} })();
+
+// Floating emojis
+const emojis=["💜","✨","🎈","🌸","💕","🎂"];
+setInterval(()=>{
+ let e=document.createElement("div");
+ e.className="float";
+ e.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+ e.style.left=Math.random()*100+"vw";
+ e.style.fontSize=(15+Math.random()*20)+"px";
+ document.body.appendChild(e);
+ setTimeout(()=>e.remove(),6000);
+},400);
+
+// Fireworks
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth; canvas.height=innerHeight;
+let particles=[];
+
+function burst(x,y){
+ for(let i=0;i<70;i++){
+  particles.push({x,y,dx:(Math.random()-0.5)*7,dy:(Math.random()-0.5)*7,life:90});
+ }
+}
+
+function celebrate(){
+  // Multiple bursts
+  for(let i=0;i<5;i++){
+    setTimeout(()=>{
+      burst(Math.random()*innerWidth, Math.random()*innerHeight/1.5);
+    }, i*200);
+  }
+
+  // Emoji explosion
+  const emojis=["🎉","💜","✨","🎂","🎈","🥳","💖","🌸"];
+  for(let i=0;i<30;i++){
+    let e=document.createElement("div");
+    e.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+    e.style.position="fixed";
+    e.style.left=innerWidth/2+"px";
+    e.style.top=innerHeight/2+"px";
+    e.style.fontSize=(20+Math.random()*30)+"px";
+    e.style.transition="all 1s ease-out";
+    document.body.appendChild(e);
+
+    setTimeout(()=>{
+      e.style.left=(Math.random()*100)+"vw";
+      e.style.top=(Math.random()*100)+"vh";
+      e.style.opacity=0;
+      e.style.transform="scale(1.5)";
+    },50);
+
+    setTimeout(()=>e.remove(),1200);
+  }
+
+  // Screen glow effect
+  document.body.style.boxShadow="inset 0 0 100px rgba(168,85,247,0.6)";
+  setTimeout(()=>{
+    document.body.style.boxShadow="none";
+  },800);
+}
+
+function animate(){
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ particles.forEach((p,i)=>{
+  p.x+=p.dx; p.y+=p.dy; p.life--;
+  ctx.fillStyle="white";
+  ctx.fillRect(p.x,p.y,2,2);
+  if(p.life<=0) particles.splice(i,1);
+ });
+ requestAnimationFrame(animate);
+}
+animate();
+
+</script></body>
+</html>
